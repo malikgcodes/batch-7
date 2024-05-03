@@ -10,6 +10,9 @@ import MultiStepForm from "./components/FormikForm/Index.jsx";
 import TableWithLocalizationProvider from "./components/Table.jsx";
 import ProductList from "./components/ProductList.jsx"
 import Navbar from "./Navbar.jsx"
+import ProductDetail from './components/ProductDetail.jsx';
+
+
 function App() {
   
   return (
@@ -19,12 +22,15 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/products" element={<ProductList />} />
+          <Route path="/products" element={<ProductList/>} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/formik" element={<PersonalInfoForm />} />
           <Route path="/multi-step" element={<MultiStepForm />} />
           <Route path="/table" element={<TableWithLocalizationProvider/>} />
-
+           
+      
+          <Route exact path="/" element={<ProductList/>} />
+        <Route path="/product/:id" element={<ProductDetail/>} /> {/* Dynamic route with :id parameter */}
         </Routes>
 
       </Router>
