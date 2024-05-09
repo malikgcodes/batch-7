@@ -145,6 +145,7 @@ export default function Sidebar() {
     setOpenSubMenu(index);
     setSubMenuComponent(menuItems[index].subMenu[subIndex].component());
   };
+  
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -178,15 +179,17 @@ export default function Sidebar() {
         <List>
           {menuItems.map((item, index) => (
             <div key={index}>
-              <ListItem
-                button
-                selected={selectedMenu === index}
-                onClick={() => handleMenuClick(index)}
-              >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} secondary={item.description} />
-                {openSubMenu === index ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
+   <ListItem
+  button
+  selected={selectedMenu === index}
+  onClick={() => handleMenuClick(index)}
+>
+  <ListItemIcon>{item.icon}</ListItemIcon>
+  <ListItemText primary={item.text} secondary={item.description} />
+  {openSubMenu === index ? <ExpandLess /> : <ExpandMore />}
+</ListItem>
+
+
               <Collapse in={openSubMenu === index} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   {item.subMenu.map((subItem, subIndex) => (
