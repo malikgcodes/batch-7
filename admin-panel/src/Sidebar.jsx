@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -21,15 +22,38 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import OrderFilter from './components/OrderFiltering';
+import OrderSearch from './components/OrderSearch';
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
-// Styled components
+const openedMixin = (theme) => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme) => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+});
+
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -44,6 +68,10 @@ const AppBar = styled(MuiAppBar, {
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   }),
 }));
 
@@ -52,36 +80,24 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
     ...(open && {
-      overflowX: 'hidden',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
     }),
     ...(!open && {
-      overflowX: 'hidden',
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1,
-      },
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
     }),
-  })
+  }),
 );
 
-// Menu items
 const menuItems = [
   {
     text: 'Dashboard Overview',
     icon: <InboxIcon />,
-    description: 'View overall statistics',
     subMenu: [
-      { text: 'Sales summary', component: () => <div>Sales summary component</div> },
+      { text: 'Sales summary (today, this week, this month)', component: () => <div>Sales summary component</div> },
       { text: 'Total revenue', component: () => <div>Total revenue component</div> },
       { text: 'Number of orders', component: () => <div>Number of orders component</div> },
       { text: 'Number of customers', component: () => <div>Number of customers component</div> },
@@ -91,19 +107,17 @@ const menuItems = [
   {
     text: 'Orders Management',
     icon: <MailIcon />,
-    description: 'Manage orders and statuses',
     subMenu: [
       { text: 'List of orders', component: () => <div>List of orders component</div> },
       { text: 'Order details', component: () => <div>Order details component</div> },
       { text: 'Order status update', component: () => <div>Order status update component</div> },
-      { text: 'Order filtering', component: () => <div>Order filtering component</div> },
-      { text: 'Order search', component: () => <div>Order search component</div> },
+      { text: 'Order filtering (by date, status, etc.)', component: () => <OrderFilter/> },
+      { text: 'Order search', component: () => <OrderSearch/> },
     ],
   },
   {
     text: 'Products Management',
     icon: <InboxIcon />,
-    description: 'Manage products and inventory',
     subMenu: [
       { text: 'List of products', component: () => <div>List of products component</div> },
       { text: 'Product details', component: () => <div>Product details component</div> },
@@ -117,35 +131,36 @@ const menuItems = [
 
 export default function Sidebar() {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState(0);
-  const [openSubMenu, setOpenSubMenu] = useState(null);
-  const [subMenuComponent, setSubMenuComponent] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [selectedMenu, setSelectedMenu] = React.useState(0);
+  const [selectedSubMenu, setSelectedSubMenu] = React.useState(0);
+  const [openSubMenu, setOpenSubMenu] = React.useState(false);
+  const [subMenuComponent, setSubMenuComponent] = React.useState(null);
 
-  // Handle opening the drawer
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
-  // Handle closing the drawer
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
-  // Handle clicking on a menu item
   const handleMenuClick = (index) => {
+    console.log("index", index)
     setSelectedMenu(index);
-    setOpenSubMenu(openSubMenu === index ? null : index);
-    setSubMenuComponent(null); // Close any currently opened sub-menu component
+    setOpenSubMenu(true);
   };
 
-  // Handle clicking on a sub-menu item
-  const handleSubMenuClick = (index, subIndex) => {
-    setSelectedMenu(index);
-    setOpenSubMenu(index);
-    setSubMenuComponent(menuItems[index].subMenu[subIndex].component());
-  };
-  
+  React.useEffect(() => {
+    // setSubMenuComponent(false);
+    if (openSubMenu === true) {
+      setSubMenuComponent(menuItems[selectedMenu].subMenu[0].component());
+    }
+    // Clean up
+    return () => {
+      setSubMenuComponent(false);
+    };
+  }, [openSubMenu, selectedMenu]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -158,7 +173,7 @@ export default function Sidebar() {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              marginRight: 2,
+              marginRight: 5,
               ...(open && { display: 'none' }),
             }}
           >
@@ -179,32 +194,51 @@ export default function Sidebar() {
         <List>
           {menuItems.map((item, index) => (
             <div key={index}>
-   <ListItem
-  button
-  selected={selectedMenu === index}
-  onClick={() => handleMenuClick(index)}
->
-  <ListItemIcon>{item.icon}</ListItemIcon>
-  <ListItemText primary={item.text} secondary={item.description} />
-  {openSubMenu === index ? <ExpandLess /> : <ExpandMore />}
-</ListItem>
-
-
-              <Collapse in={openSubMenu === index} timeout="auto" unmountOnExit>
+              <ListItem
+                disablePadding
+                sx={{ display: 'block' }}
+                // selected={selectedMenu}
+                onClick={() => handleMenuClick(index)}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
+                  {openSubMenu === true ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+              </ListItem>
+              <Collapse in={open ? selectedMenu === index ? openSubMenu === true ? true : false : false : false} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   {item.subMenu.map((subItem, subIndex) => (
-                    <ListItem
-                      key={subIndex}
-                      button
-                      sx={{ pl: 4 }}
-                      onClick={() => handleSubMenuClick(index, subIndex)}
-                    >
-                      <ListItemText primary={subItem.text} />
+                    <ListItem key={subIndex} disablePadding onClick={() => setSelectedSubMenu(subIndex)}>
+                      <ListItemButton
+                        sx={{
+                          minHeight: 48,
+                          justifyContent: open ? 'initial' : 'center',
+                          px: 4,
+                        }}
+                        onClick={() => setSubMenuComponent(subItem.component)}
+                      >
+                        <ListItemText primary={subItem.text} />
+                      </ListItemButton>
                     </ListItem>
                   ))}
                 </List>
               </Collapse>
-              <Divider />
+              {openSubMenu === true ? <Divider /> : null}
             </div>
           ))}
         </List>
