@@ -14,11 +14,5 @@ export default function App() {
       <Sidebar />
     </Box>
   );
-    <>
-      <Sidebar/>
-      {/* <Header></Header>
-      <Sidebar/>
-      <MainContent/> */}
-    </>
-  )
+    
 }
