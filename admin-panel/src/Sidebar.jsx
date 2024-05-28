@@ -22,14 +22,10 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-<<<<<<< HEAD
 import OrderFilter from './components/OrderFiltering';
 import OrderSearch from './components/OrderSearch';
-=======
-
 
 import SalesSummary from "./components/SalesSummary"
->>>>>>> main
 
 const drawerWidth = 300;
 
@@ -103,11 +99,11 @@ const menuItems = [
     text: 'Dashboard Overview',
     icon: <InboxIcon />,
     subMenu: [
-<<<<<<< HEAD
+
       { text: 'Sales summary (today, this week, this month)', component: () => <div>Sales summary component</div> },
-=======
+
       { text: 'Sales summary (today, this week, this month)', component: () =><SalesSummary/> },
->>>>>>> main
+
       { text: 'Total revenue', component: () => <div>Total revenue component</div> },
       { text: 'Number of orders', component: () => <div>Number of orders component</div> },
       { text: 'Number of customers', component: () => <div>Number of customers component</div> },
@@ -121,13 +117,13 @@ const menuItems = [
       { text: 'List of orders', component: () => <div>List of orders component</div> },
       { text: 'Order details', component: () => <div>Order details component</div> },
       { text: 'Order status update', component: () => <div>Order status update component</div> },
-<<<<<<< HEAD
+
       { text: 'Order filtering (by date, status, etc.)', component: () => <OrderFilter/> },
       { text: 'Order search', component: () => <OrderSearch/> },
-=======
+
       { text: 'Order filtering (by date, status, etc.)', component: () => <div>Order filtering component</div> },
       { text: 'Order search', component: () => <div>Order search component</div> },
->>>>>>> main
+
     ],
   },
   {
