@@ -1,5 +1,5 @@
 
-import * as React from 'react';
+import React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -24,8 +24,9 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import OrderFilter from './components/OrderFiltering';
 import OrderSearch from './components/OrderSearch';
+import InvoicePayment from './components/InvoicePayment';
 
-import SalesSummary from "./components/SalesSummary"
+// import SalesSummary from "./components/SalesSummary"
 
 const drawerWidth = 300;
 
@@ -134,7 +135,7 @@ const menuItems = [
       { text: 'Product details', component: () => <div>Product details component</div> },
       { text: 'Add/edit/delete products', component: () => <div>Add/edit/delete products component</div> },
       { text: 'Product categories', component: () => <div>Product categories component</div> },
-      { text: 'Inventory management', component: () => <div>Inventory management component</div> },
+      { text: 'Inventory management', component: () => <InvoicePayment/> },
       { text: 'Product search', component: () => <div>Product search component</div> },
     ],
   },
