@@ -24,8 +24,10 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import OrderFilter from './components/OrderFiltering';
 import OrderSearch from './components/OrderSearch';
-import InvoicePayment from './components/InvoicePayment';
-
+import InvoicePayment from './components/InvoicePayment/InvoicePayment';
+import SinglePayment from './components/InvoicePayment/SinglePaymentPage';
+import AllPayments from './components/InvoicePayment/AllPayment';
+import EditPayment from './components/InvoicePayment/EditPaymentPage';
 // import SalesSummary from "./components/SalesSummary"
 
 const drawerWidth = 300;
@@ -131,11 +133,11 @@ const menuItems = [
     text: 'Products Management',
     icon: <InboxIcon />,
     subMenu: [
-      { text: 'List of products', component: () => <div>List of products component</div> },
-      { text: 'Product details', component: () => <div>Product details component</div> },
-      { text: 'Add/edit/delete products', component: () => <div>Add/edit/delete products component</div> },
-      { text: 'Product categories', component: () => <div>Product categories component</div> },
-      { text: 'Inventory management', component: () => <InvoicePayment/> },
+      { text: 'Invoice /Payment', component: () => <InvoicePayment/> },
+      { text: 'Single Payment', component: () => <SinglePayment/> },
+      { text: 'All Paymentd', component: () => <AllPayments/> },
+      { text: 'Edit Payment', component: () => <EditPayment/> },
+      { text: 'Inventory management', component: () =><div>Product categories component</div>   },
       { text: 'Product search', component: () => <div>Product search component</div> },
     ],
   },
