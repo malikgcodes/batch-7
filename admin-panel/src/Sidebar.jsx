@@ -28,7 +28,12 @@ import InvoicePayment from './components/InvoicePayment/InvoicePayment';
 import SinglePayment from './components/InvoicePayment/SinglePaymentPage';
 import AllPayments from './components/InvoicePayment/AllPayment';
 import EditPayment from './components/InvoicePayment/EditPaymentPage';
+import Order from './components/Order/OrderManagement'
+import AllProducts from './components/Order/AllProducts';
+import CancelProduct from './components/Order/CancelProduct';
+import SingleProduct from './components/Order/SingleProduct';
 // import SalesSummary from "./components/SalesSummary"
+import OrderAnalysis from './components/Order/OrderAnalysis'
 
 const drawerWidth = 300;
 
@@ -117,15 +122,18 @@ const menuItems = [
     text: 'Orders Management',
     icon: <MailIcon />,
     subMenu: [
-      { text: 'List of orders', component: () => <div>List of orders component</div> },
-      { text: 'Order details', component: () => <div>Order details component</div> },
-      { text: 'Order status update', component: () => <div>Order status update component</div> },
+      { text: 'List of orders', component: () => <div>Order details component</div>  },
 
-      { text: 'Order filtering (by date, status, etc.)', component: () => <OrderFilter/> },
-      { text: 'Order search', component: () => <OrderSearch/> },
+      { text: 'OrderAnalysis ', component: () => <OrderAnalysis/>
+       },
+      { text: 'Order ', component: () => <Order/> },
+      { text: 'Single Product', component: () => <SingleProduct />},
 
-      { text: 'Order filtering (by date, status, etc.)', component: () => <div>Order filtering component</div> },
-      { text: 'Order search', component: () => <div>Order search component</div> },
+      { text: 'All Products', component: () => <AllProducts/> },
+      { text: 'Cancel Product', component: () => <CancelProduct/>  },
+
+      { text: 'OrderFilter', component: () => <OrderFilter/> },
+      { text: 'Order Search', component: () => <div><OrderSearch/></div> },
 
     ],
   },
